@@ -30,14 +30,14 @@ model Insights {
 
 model Tags {
   id       Int     @id @unique @default(autoincrement())
-  reportId Int?    @unique
+  reportId Int?
   tag      String
   Report   Report? @relation(fields: [reportId], references: [id])
 }
 
 model Wikilinks {
   id       Int     @id @unique @default(autoincrement())
-  reportId Int?    @unique
+  reportId Int?
   link     String
   name     String
   Report   Report? @relation(fields: [reportId], references: [id])
