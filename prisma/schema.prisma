@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Report {
-  id        Int        @id @unique @default(autoincrement())
+  id        Int         @id @unique @default(autoincrement())
   title     String
   content   String
   summary   String
   lang      String
   author    String
-  date      DateTime   @default(now())
+  date      DateTime    @default(now())
   generator String
   insights  Insights[]
-  Tags      Tags?
-  WikiLinks Wikilinks?
+  Tags      Tags[]
+  WikiLinks Wikilinks[]
 }
 
 model Insights {
