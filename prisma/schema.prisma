@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id        Int        @id @unique @default(autoincrement())
+  title     String
+  content   String
+  summary   String
+  lang      String
+  author    String
+  date      DateTime   @default(now())
+  generator String
+  insights  Insights[]
+  Tags      Tags?
+  WikiLinks Wikilinks?
+}
+
+model Insights {
+  id       Int     @id @unique @default(autoincrement())
+  reportId Int?
+  insight  String
+  Report   Report? @relation(fields: [reportId], references: [id])
+}
+
+model Tags {
+  id       Int     @id @unique @default(autoincrement())
+  reportId Int?    @unique
+  tag      String
+  Report   Report? @relation(fields: [reportId], references: [id])
+}
+
+model Wikilinks {
+  id       Int     @id @unique @default(autoincrement())
+  reportId Int?    @unique
+  link     String
+  name     String
+  Report   Report? @relation(fields: [reportId], references: [id])
+}
