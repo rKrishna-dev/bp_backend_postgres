@@ -12,6 +12,17 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/api/get-all", cors(), async (req, res) => {
+  const report = await prisma.report.findMany({
+    include: {
+      insights: true,
+      tags: true,
+      WikiLinks: true,
+    },
+  });
+  console.log(report);
+  res.json({ message: report });
+});
 // create a new record
 app.post("/api/create", async (req, res) => {
   const { title, content, summary } = req.body;
