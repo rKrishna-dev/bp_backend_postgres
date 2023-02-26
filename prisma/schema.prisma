@@ -17,7 +17,7 @@ model Report {
   date      DateTime    @default(now())
   generator String
   insights  Insights[]
-  Tags      Tags[]
+  tags      Tags[]
   WikiLinks Wikilinks[]
 }
 

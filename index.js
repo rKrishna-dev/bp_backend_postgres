@@ -42,7 +42,7 @@ app.post("/api/get-report", async (req, res) => {
     },
     include: {
       insights: true,
-      Tags: true,
+      tags: true,
       WikiLinks: true,
     },
   });
@@ -94,10 +94,33 @@ app.post("/api/create-tags", async (req, res) => {
 });
 
 // // Add in Tags and Wiki Links
-// app.post("/api/addin-helper", async (req, res) => {
-//     const {entityLinking, namedEntites} = req.body;
+app.post("/api/addin-helper", async (req, res) => {
+  const { entityLinking, namedEntites, id } = req.body;
+  console.log(entityLinking, namedEntites);
+  for (let i = 0; i < entityLinking.length; i++) {
+    const { name, url } = entityLinking[i];
+    const wiki = await prisma.wikilinks.create({
+      data: {
+        name,
+        link: url,
+        reportId: id,
+      },
+    });
 
-// });
+    console.log(wiki);
+  }
+  for (let i = 0; i < namedEntites.length; i++) {
+    const { text } = namedEntites[i];
+    const createtag = await prisma.tags.create({
+      data: {
+        tag: text,
+        reportId: id,
+      },
+    });
+    console.log(createtag);
+  }
+  res.json({ message: "success" });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
